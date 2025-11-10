@@ -62,7 +62,7 @@ This is a personal portfolio project, but feel free to fork the repository to ad
 
 ## License
 
-[MIT OR UNLICENSED - Choose one]
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
