@@ -13,11 +13,10 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        // This is where you'd check a database, but we'll use a simple .env variable
+        // This is where we'd check a database, but we'll use a simple .env variable
         
         // We'll set this password in our .env file in the next step
         if (credentials.password === process.env.ADMIN_PASSWORD) {
-          // Any object returned here will be saved in the session
           return { id: '1', name: 'Admin' };
         } else {
           // If you return null, an error will be displayed
@@ -27,12 +26,10 @@ export const authOptions = {
     }),
   ],
   
-  // 2. We are using a simple JWT strategy
   session: {
     strategy: 'jwt',
   },
 
-  // 3. Define our simple login page
   pages: {
     signIn: '/login',
   }

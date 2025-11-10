@@ -4,7 +4,6 @@ export default function PrivacyPolicyPage() {
   return (
     <main className="flex justify-center p-8 md:p-16">
       <div className="w-full max-w-3xl">
-        {/* Uses the same styling as AboutPage for consistency */}
         <article className="prose prose-invert lg:prose-xl">
           
           <h1>🔐 Privacy Policy</h1>

@@ -1,4 +1,4 @@
-import ContactForm from '../../components/ContactForm'; // ⬅️ 1. Must import the form component
+import ContactForm from '../../components/ContactForm';
 
 export default function AboutPage() {
   return (
