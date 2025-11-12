@@ -2,8 +2,10 @@
 
 import { getSortedSnippetsData, getAllCategories } from '@/lib/snippets';
 
-// WARNING: Replace this with your live website's URL when deploying!
-const BASE_URL = 'http://localhost:3000'; 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL 
+  || process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}` // Vercel sets this automatically
+  : 'http://localhost:3000'; // Fallback for local development 
 
 export default async function sitemap() {
   const allSnippets = await getSortedSnippetsData();
