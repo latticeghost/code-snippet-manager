@@ -10,6 +10,18 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: 'Code Snippet Manager',
   description: 'Your personal collection of code snippets',
+  icons: {
+    icon: '../public/favicon.ico',
+    shortcut: '../public/favicon-96x96.png',
+    apple: '../public/apple-touch-icon.png',
+    other: [
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        url: '/favicon.svg',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {

@@ -1,0 +1,8 @@
+# Allow all crawlers access
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+
+# Point to your sitemap location
+Sitemap: https://YOUR-WEBSITE-URL.com/sitemap.xml
