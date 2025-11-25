@@ -10,7 +10,7 @@ export default async function CategoryPage({ params }) {
   const category = awaitedParams.category;
 
   // 2. Get all snippets for THIS category
-  const snippets = getSnippetsByCategory(category);
+  const snippets = await getSnippetsByCategory(category);
 
   // --- BREADCRUMB LOGIC ---
   // 1. Format the category slug (e.g., "c-programming" -> "C Programming")

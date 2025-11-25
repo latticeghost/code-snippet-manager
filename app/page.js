@@ -1,64 +1,97 @@
 import Link from 'next/link';
-import { getAllCategories } from '../lib/snippets'; // <-- 1. Import our new function
+import { getSortedSnippetsData, getAllCategories } from '../lib/snippets';
 
-/**
- * A helper function to capitalize the first letter of a string.
- * @param {string} s - The string to capitalize.
- * @returns {string} - The capitalized string.
- */
-function capitalize(s) {
-  if (typeof s !== 'string') return '';
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-export default function Home() {
-  // 2. Get the list of categories and their counts
-  const allCategories = getAllCategories();
+// 1. Mark the component as 'async'
+export default async function Home() {
+  
+  // 2. Use 'await' to resolve the Promises
+  const allSnippets = await getSortedSnippetsData();
+  const categories = await getAllCategories();
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <div className="max-w-5xl mx-auto p-6 space-y-12">
       
-      {/* ===== Hero Section (Updated) ===== */}
-      <section className="w-full flex justify-center bg-neutral-800 border-b border-neutral-700 p-16 text-center">
-        <div className="max-w-3xl">
-          <h1 className="text-5xl font-extrabold mb-4">
-            Your Personal Code Library
-          </h1>
-          <p className="text-xl text-gray-300">
-            Browse snippets by category. Fast, searchable, and always available.
-          </p>
+      {/* Hero Section */}
+      <section className="text-center space-y-4 py-12">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+          Your Personal <span className="text-blue-500">Code Library</span>
+        </h1>
+        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          Organize, search, and access your favorite code snippets in seconds. 
+          Built for developers, by developers.
+        </p>
+        <div className="flex justify-center gap-4 pt-4">
+            <Link 
+              href="/admin/new" 
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
+            >
+              + Create Snippet
+            </Link>
         </div>
       </section>
 
-      {/* ===== 3. NEW Category Grid Section ===== */}
-      <section className="w-full max-w-5xl p-8 md:p-12">
-        <h2 className="text-3xl font-bold mb-8 text-center">
-          All Categories
+      {/* Categories Grid */}
+      <section>
+        <h2 className="text-2xl font-bold text-white mb-6 border-b border-gray-800 pb-2">
+          Browse by Category
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          
-          {/* Map over the categories and create a card for each */}
-          {allCategories.map(({ name, count }) => (
-            <Link
-              href={`/category/${name}`} // <-- Links to our new page
-              key={name}
-              className="flex flex-col justify-between border border-gray-700 rounded-lg p-6 hover:border-blue-500 transition-colors"
+        {/* Check if we have categories */}
+        {categories.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {categories.map((cat) => (
+              <Link 
+                key={cat.name} 
+                href={`/category/${cat.name}`}
+                className="bg-neutral-800 p-4 rounded-lg hover:bg-neutral-700 transition-colors border border-neutral-700 group"
+              >
+                <h3 className="text-lg font-semibold text-gray-200 group-hover:text-blue-400 capitalize">
+                  {cat.name}
+                </h3>
+                <p className="text-sm text-gray-500 mt-1">
+                  {cat.count} {cat.count === 1 ? 'snippet' : 'snippets'}
+                </p>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500 italic">No categories found. Create a snippet to get started!</p>
+        )}
+      </section>
+
+      {/* Recent Snippets List */}
+      <section>
+        <h2 className="text-2xl font-bold text-white mb-6 border-b border-gray-800 pb-2">
+          All Snippets
+        </h2>
+        <div className="grid gap-4">
+          {allSnippets.map((snippet) => (
+            <Link 
+              key={snippet._id} 
+              href={`/snippets/${snippet.category}/${snippet.slug}`}
+              className="block bg-neutral-900 border border-neutral-800 p-5 rounded-lg hover:border-blue-500 transition-colors"
             >
-              <div>
-                <h2 className="text-3xl font-semibold mb-2">
-                  {capitalize(name)}
-                </h2>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-xl font-semibold text-blue-400 mb-2">
+                    {snippet.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm line-clamp-2">
+                    {snippet.description}
+                  </p>
+                </div>
+                <span className="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded uppercase">
+                  {snippet.language}
+                </span>
               </div>
-              <p className="text-gray-400">
-                {count} snippet{count !== 1 ? 's' : ''}
-              </p>
             </Link>
           ))}
 
+          {allSnippets.length === 0 && (
+             <p className="text-gray-500 text-center py-8">No snippets found.</p>
+          )}
         </div>
       </section>
-
-    </main>
+    </div>
   );
 }
